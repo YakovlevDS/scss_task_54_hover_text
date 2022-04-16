@@ -1,0 +1,362 @@
+@import url('https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;700&display=swap');
+
+:root {
+  --normal: 300;
+  --bold: 700;
+  --duration: 250ms;
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: "Public Sans", sans-serif;
+  font-size: 1rem;
+  padding: 4rem 1rem;
+  background-color: whitesmoke;
+  
+  > * + * {
+    margin-top: 4rem;
+  }
+}
+
+.select-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 250px;
+}
+
+.icon {
+  pointer-events: none;
+  position: absolute;
+  top: 50%;
+  right: 1rem;
+  width: 0.75em;
+  transform: translateY(-50%);
+}
+
+.label {
+  position: absolute;
+  bottom: 100%;
+  margin-bottom: 0.5rem;
+}
+
+.select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  cursor: pointer;
+  outline: none;
+  border: 2px solid lightgray;
+  border-radius: 0.25rem;
+  background-image: linear-gradient(to bottom, white, whitesmoke);
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: 700;
+  text-transform: capitalize;
+
+  &:focus {
+    border-color: dodgerblue;
+  }
+}
+
+.menu {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  font-size: 1.5rem;
+}
+
+.menu-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.5rem;
+  color: black;
+  font-variation-settings: "wght" var(--normal);  
+  text-decoration: none;
+
+  &:hover {
+    font-variation-settings: "wght" var(--bold);
+  }
+  
+  .char {
+    --delay: calc(var(--char-index) * 0.024s);
+
+    display: inline-flex;
+    flex-direction: column;
+    letter-spacing: -0.05rem;
+    transform: translateZ(0);
+    -webkit-backface-visibility: hidden;
+    transition:
+      font-variation-settings var(--duration) var(--ease),
+      opacity var(--duration) var(--ease);
+  }
+
+  .whitespace {
+    width: 4px;
+  }
+
+  .char::before {
+    position: relative;
+    height: 0;
+    width: 100%;
+  }
+
+  .char::before,
+  .char::after {
+    pointer-events: none;
+    font-variation-settings: "wght" var(--bold);
+  }
+}
+
+// -------------------------------
+$animation: bold-delay;
+// -------------------------------
+
+[data-animation="#{$animation}"] {
+  .menu-link .char {
+    transition-delay: var(--delay);
+  }
+}
+
+// -------------------------------
+$animation: buoy;
+// -------------------------------
+
+[data-animation="#{$animation}"] {
+  .menu-link:hover .char {
+    transition-delay: var(--delay);
+    animation: #{$animation} calc(var(--duration) * 6) var(--delay) ease-in-out infinite;
+  }
+
+  @keyframes #{$animation} {
+    25% {
+      transform: translateY(-6px) rotate(-5deg);
+    }
+    50% {
+      transform: translateY(0px);
+    }
+    75% {
+      transform: translateY(-6px) rotate(5deg);
+    }
+  }
+}
+
+// -------------------------------
+$animation: front-flip;
+// -------------------------------
+
+[data-animation="#{$animation}"] {
+  .menu-link:hover .char {
+    transform-origin: 50% 0;
+    animation: #{$animation} calc(var(--duration) * 6) calc(var(--char-index) * 0.02s) var(--ease) forwards;
+  }
+
+  @keyframes #{$animation} {
+    20% {
+      transform: translateY(0) scale(0.8);
+      animation-timing-function: linear;
+    }
+    25% {
+      transform: translateY(2px) scale(0.8, 0.6);
+      animation-timing-function: linear;
+    }
+    30% {
+      transform: translateY(-10px) scale(0.8, 1.2);
+      animation-timing-function: linear;
+    }
+    40% {
+      transform: translateY(-10px) scale(1, -1);
+      animation-timing-function: linear;
+    }
+    50% {
+      transform: translateY(6px);
+    }
+    70% {
+      transform: translateY(0);
+    }
+  }
+}
+
+// -------------------------------
+$animation: reflection-pool;
+// -------------------------------
+
+[data-animation="#{$animation}"] {
+  .menu-link:hover .char {
+    animation: #{$animation} var(--duration) calc(var(--char-index) * (var(--duration) / -2)) linear alternate infinite;
+  }
+
+  @keyframes #{$animation} {
+    from {
+      font-variation-settings: "wght" var(--normal);
+    }
+    to {
+      font-variation-settings: "wght" var(--bold);
+    }
+  }
+}
+
+// -------------------------------
+$animation: jump;
+// -------------------------------
+
+[data-animation="#{$animation}"] {
+  .menu-link:hover .char {
+    transform-origin: 50% 100%;
+    transition-delay: var(--delay);
+    animation: #{$animation} calc(var(--duration) * 3.5) calc(var(--char-index) * 0.04s) var(--ease) forwards;
+  }
+
+  @keyframes #{$animation} {
+    0% {
+      animation-timing-function: linear;
+    }
+    30% {
+      transform: translateY(2px) scaleY(0.9);
+    }
+    50% {
+      transform: translateY(-30px) scaleY(1.25);
+    }
+    60% {
+      transform: translateY(3px) scaleY(0.75);
+      animation-timing-function: linear;
+    }
+    80% {
+      transform: translateY(-1px);
+      animation-timing-function: linear;
+    }
+  }
+}
+
+// -------------------------------
+$animation: shadow;
+// -------------------------------
+
+[data-animation="#{$animation}"] {
+  .menu-link:hover .char,
+  .menu-link:hover .char::after {
+    animation: calc(var(--duration) * 3) calc(var(--char-index) * 0.024s) var(--ease) forwards;
+  }
+  
+  .menu-link:hover .char {
+    transform-origin: 0 100%;
+    transition-delay: var(--delay);
+    animation-name: #{$animation};
+  }
+
+  .menu-link .char::after {
+    visibility: visible;
+    opacity: 0;
+    transform: scaleY(0);
+  }
+
+  .menu-link:hover .char::after {
+    transform-origin: 0 100%;
+    animation-name: #{$animation}-after;
+  }
+
+  @keyframes #{$animation} {
+    to {
+      transform: scaleY(1.05);
+    }
+  }
+
+  @keyframes #{$animation}-after {
+    from {
+      opacity: 0;
+      transform: scaleY(0);
+    }
+    to {
+      opacity: 0.25;
+      transform: scaleY(-0.75) skewX(-30deg);
+    }
+  }
+}
+
+// -------------------------------
+$animation: smile;
+// -------------------------------
+
+[data-animation="#{$animation}"] {
+  .menu-link:hover .char {
+    --d: calc(var(--duration) * 3);
+    
+    transition-duration: var(--d);
+    animation: #{$animation} var(--d) var(--ease) forwards;
+  }
+
+  @keyframes #{$animation} {
+    to {
+      transform:
+        translate(
+          calc(10px * var(--distance-sine)),
+          calc(-10px * var(--distance-percent))
+        )
+        rotate(calc(-25deg * var(--distance-sine)));
+    }
+  }
+}
+
+// -------------------------------
+$animation: step-sequence;
+// -------------------------------
+
+[data-animation="#{$animation}"] {
+  --opacity: 0.4;
+  
+  .menu-link:hover .char {
+    opacity: var(--opacity);
+    font-variation-settings: "wght" var(--normal);
+    animation: #{$animation} calc((var(--duration) / 1.5) * var(--char-total)) calc(var(--char-index) * calc(var(--duration) / 1.5)) steps(2, end) infinite;
+  }
+
+  @keyframes #{$animation} {
+    0% {
+      opacity: 1;
+      transform: translateY(-2px);
+      font-variation-settings: "wght" var(--bold);
+    }
+    10%, 100% {
+      opacity: var(--opacity);
+      transform: translateY(0);
+      font-variation-settings: "wght" var(--normal);
+    }
+  }
+}
+
+// -------------------------------
+$animation: wave;
+// -------------------------------
+
+[data-animation="#{$animation}"] {
+  .menu-link:hover .char {
+    transition-delay: var(--delay);
+    animation: #{$animation} calc(var(--duration) * 3) calc(var(--char-index) * 0.04s) ease-in-out alternate infinite;
+  }
+
+  @keyframes #{$animation} {
+    50% {
+      transform:
+        translate(
+          calc(-0.125em * var(--char-index)),
+          calc(-0.25em * var(--char-index))
+        )
+        rotate(calc(-5deg * (var(--char-index) + 1)));
+    }
+  }
+}
